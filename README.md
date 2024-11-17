@@ -1,4 +1,4 @@
-# Emergency Medicine Bot
+#  Medicine Bot - MedSmart
 ## Overview
 The Emergency Medicine Bot is a healthcare-focused chatbot designed to provide users with information on nearby hospitals in case of an emergency. The bot fetches relevant hospital data based on the user's location. It integrates with the Mapbox API for location-based services, and aims to assist in emergencies by providing hospital information quickly.
 
