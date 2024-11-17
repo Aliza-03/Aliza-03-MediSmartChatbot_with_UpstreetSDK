@@ -6,7 +6,7 @@ const MAPBOX_API_KEY = 'pk.eyJ1IjoibGl6aXNpLTAzIiwiYSI6ImNtM2twancwajBldG4ycnM5Z
 
 export default function MyAgent() {
   const [hospitalResults, setHospitalResults] = useState([]);
-  const [showDisclaimer, setShowDisclaimer] = useState(true); // Default disclaimer
+ // const [showDisclaimer, setShowDisclaimer] = useState(true); // Default disclaimer
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -49,11 +49,10 @@ export default function MyAgent() {
     getNearbyHospitals(simulatedLocation); // Fetch hospitals once location is obtained
   };
 
-  // Triggered when user needs immediate medical attention
+  // Supposed to be Triggered when user needs immediate medical attention
   const handleEmergency = () => {
     console.log("Fetching the nearest hospitals near you for reference...");
     
-    // Get user's location (simulated for testing purposes)
     getUserLocation();
   };
 
@@ -64,7 +63,7 @@ export default function MyAgent() {
   };
 
   useEffect(() => {
-    const userInput = "urgent help"; // Simulate user input (replace this with actual user input)
+    const userInput = "urgent help"; 
     
     if (checkForEmergency(userInput)) {
       handleEmergency(); // If emergency detected, trigger hospital locator
