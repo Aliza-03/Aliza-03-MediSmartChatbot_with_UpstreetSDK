@@ -107,6 +107,7 @@ import {
 import { r2EndpointUrl } from './util/endpoints.mjs';
 import { webbrowserActionsToText } from './util/browser-action-utils.mjs';
 import { createBrowser/*, testBrowser*/ } from 'react-agents/util/create-browser.mjs';
+//import EmergencyHandler from './EmergencyHandler';
 
 // Note: this comment is used to remove imports before running tsdoc
 // END IMPORTS
@@ -135,6 +136,7 @@ export const DefaultAgentComponents = () => {
       <DefaultSenses />
       <DefaultDrivers />
       <RAGMemory />
+      {/* <EmergencyHandler /> */}
       {/* <LiveMode /> */}
       <DefaultPrompts />
       {/* <DefaultServers /> */}

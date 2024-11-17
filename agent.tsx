@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Agent, TTS, DefaultPrompts } from 'react-agents';
 
 const MAPBOX_API_KEY = 'pk.eyJ1IjoibGl6aXNpLTAzIiwiYSI6ImNtM2twancwajBldG4ycnM5ZDZzOXNuNTYifQ.FbBkAJ1yYNVQ-n1UzGglHg'; // Your Mapbox API Key
 
@@ -10,11 +11,11 @@ export default function MyAgent() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Log the disclaimer only once when the component mounts
+    // Log the disclaimer only once 
     console.log(
       "Disclaimer: I am a virtual assistant providing general medical advice, not a replacement for a doctor. Always consult a healthcare professional for accurate diagnosis and treatment."
     );
-  }, []); 
+  }, []);
 
   // Function to get nearby hospitals using Mapbox Geocoding API
   const getNearbyHospitals = async (location: { lat: number; lng: number }) => {
@@ -42,52 +43,55 @@ export default function MyAgent() {
 
   // Function to get user's location
   const getUserLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const location = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
-          setUserLocation(location);
-          getNearbyHospitals(location); // Fetch hospitals once location is obtained
-        },
-        (error) => {
-          console.error("Error getting location:", error);
-          setHospitalResults([{ text: 'Location access denied. Please enable location services.' }]);
-          setLoading(false);
-        }
-      );
-    } else {
-      setHospitalResults([{ text: 'Geolocation is not supported by this browser.' }]);
-      setLoading(false);
-    }
+    // Using simulated location (since geolocation is not supported in terminal)
+    const simulatedLocation = { lat: 33.7100, lng: 73.0470 }; // Islamabad
+    setUserLocation(simulatedLocation);
+    getNearbyHospitals(simulatedLocation); // Fetch hospitals once location is obtained
   };
 
-  // Run the location detection on component mount
+  // Triggered when user needs immediate medical attention
+  const handleEmergency = () => {
+    console.log("Fetching the nearest hospitals near you for reference...");
+    
+    // Get user's location (simulated for testing purposes)
+    getUserLocation();
+  };
+
+  // Example of how you can detect a need for immediate help
+  const checkForEmergency = (input: string) => {
+    const emergencyKeywords = ["emergency", "urgent", "help", "immediate", "emergency help"];
+    return emergencyKeywords.some(keyword => input.toLowerCase().includes(keyword));
+  };
+
   useEffect(() => {
-    // Simulate location for testing
-    const simulatedLocation = { lat: 40.7128, lng: -74.0060 }; // Example: New York City coordinates
-    setUserLocation(simulatedLocation);
-    getNearbyHospitals(simulatedLocation);
+    const userInput = "urgent help"; // Simulate user input (replace this with actual user input)
+    
+    if (checkForEmergency(userInput)) {
+      handleEmergency(); // If emergency detected, trigger hospital locator
+    }
   }, []);
 
+  
   // Print hospital results to terminal
   useEffect(() => {
     if (hospitalResults.length > 0) {
-      console.log("Nearby Hospitals:");
       hospitalResults.forEach((hospital) => {
         console.log(`- ${hospital.text}`);
         console.log(`  Address: ${hospital.properties?.address || 'No address available'}`);
+        // Phone number handling would require more specific data, which Mapbox Geocoding API may not provide
       });
     }
   }, [hospitalResults]);
 
-  // Print loading message
-  if (loading) {
-    console.log("Loading nearby hospitals...");
-  }
 
-  return null; // Since we're not rendering anything to the web UI
+  return (
+    <Agent>
+      
+      <DefaultPrompts />
+      {/* <TTS voiceEndpoint="elevenlabs:uni:PSAakCTPE63lB4tP9iNQ" /> */}
+      
+    </Agent>
+  );
+
 }
 
